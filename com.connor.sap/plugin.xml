@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.commands">
+      <command name="零件传送到SAP" id="com.connor.sap.commands.ItemToSap"/>
+      <command name="工艺路线传送到SAP" id="com.connor.sap.commands.ProcessToSap"/>
+      <command name="BOM传送到SAP" id="com.connor.sap.commands.BomToSap"/>
+   </extension>
+   <extension point="org.eclipse.ui.handlers">
+      <handler commandId="com.connor.sap.commands.ItemToSap" class="com.connor.sap.send.ToSapHandler"/>
+      <handler commandId="com.connor.sap.commands.ProcessToSap" class="com.connor.sap.send.ToSapHandler"/>
+      <handler commandId="com.connor.sap.commands.BomToSap" class="com.connor.sap.send.ToSapHandler"/>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu label="SAP集成" mnemonic="S" id="com.connor.sap.menus.sap">
+            <command commandId="com.connor.sap.commands.ItemToSap" mnemonic="A" icon="icons/part.png"
+                  id="com.connor.sap.menus.sap.ItemToSap">
+            </command>
+            <command commandId="com.connor.sap.commands.ProcessToSap" mnemonic="S" icon="icons/process.png"
+                  id="com.connor.sap.menus.sap.ProcessToSap">
+            </command>
+            <command commandId="com.connor.sap.commands.BomToSap" mnemonic="D" icon="icons/bom.png"
+                  id="com.connor.sap.menus.sap.BomToSap">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>
