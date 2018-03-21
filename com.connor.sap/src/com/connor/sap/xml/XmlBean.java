@@ -12,16 +12,16 @@ public class XmlBean {
 		this.element=element;
 	}
 	public void addChild(XmlBean childBean) {
-		children.add(childBean);
+		this.children.add(childBean);
 	}
 	
 	public List<XmlBean> getChildren(){
-		return children;
+		return this.children;
 	}
 	
 	public List<XmlBean> getChildNodes(String nodeName){
 		List<XmlBean> resList=new ArrayList<>();
-		for (XmlBean bean : children) {
+		for (XmlBean bean : this.children) {
 			if(bean.getTagName().equals(nodeName)) {
 				resList.add(bean);
 			}
@@ -34,7 +34,7 @@ public class XmlBean {
 		if(res==null) {
 			throw new Exception("标签"+getTagName()+"不存在属性："+propName);
 		}
-		return this.element.attributeValue(propName);
+		return res;
 	}
 	
 	public String getTagName() {
