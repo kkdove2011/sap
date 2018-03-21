@@ -24,7 +24,6 @@ import com.teamcenter.rac.kernel.TCComponentBOPWindowType;
 import com.teamcenter.rac.kernel.TCComponentItemRevision;
 import com.teamcenter.rac.kernel.TCProperty;
 import com.teamcenter.rac.kernel.TCSession;
-import com.teamcenter.rac.util.MessageBox;
 
 public class ToSapOperation extends AbstractAIFOperation {
 	private AbstractAIFUIApplication app;
@@ -50,13 +49,13 @@ public class ToSapOperation extends AbstractAIFOperation {
 		// 加载函数
 		sapFunction.loadFunction(commandId);
 		// 检查对象类型
-		infoDialog.setText("检查对象类型...");
 		checkTargets(targets, sapFunction.getFunctionNode());
-		StringBuilder info = new StringBuilder();
+		StringBuilder successInfo = new StringBuilder();
+		StringBuilder failInfo = new StringBuilder();
 		// 遍历targets获取数据和传输，进行异常处理并处理提示信息
 		int counter=1;
+		int successCounter=0;
 		for (InterfaceAIFComponent target : targets) {
-			info.append("---------------------------------------------------------\n");
 			try {
 				// 获取tc数据
 				infoDialog.setText("传送数据... "+(counter++)+" of "+targetCnt);
@@ -67,21 +66,26 @@ public class ToSapOperation extends AbstractAIFOperation {
 				if (rtnTableMap.containsKey("RETURN")) {
 					JCoTable rtnTable = rtnTableMap.get("RETURN");
 					if ("S".equals(rtnTable.getString("TYPE"))) {
-						info.append("传送成功：").append(target.toString()).append("\n");
+						successInfo.append("---------------------------------------------------------\n");
+						successInfo.append("传送成功：").append(target.toString()).append("\n");
+						successCounter++;
 					} else {
-						info.append("传送失败：").append(target.toString()).append("\n返回信息：").append(rtnTable.getString("MESSAGE")).append("\n");
+						failInfo.append("---------------------------------------------------------\n");
+						failInfo.append("传送失败：").append(target.toString()).append("\n返回信息：").append(rtnTable.getString("MESSAGE")).append("\n");
 					}
 				} else {
-					info.append("传送失败：").append(target.toString()).append("\n无法获取返回结果的表：RETURN\n");
+					failInfo.append("---------------------------------------------------------\n");
+					failInfo.append("传送失败：").append(target.toString()).append("\n无法获取返回结果的表：RETURN\n");
 				}
 			} catch (Exception e) {
-				info.append("传送失败：").append(target.toString()).append("\n").append(e.getMessage()).append("\n");
+				failInfo.append("---------------------------------------------------------\n");
+				failInfo.append("传送失败：").append(target.toString()).append("\n").append(e.getMessage()).append("\n");
 				e.printStackTrace();
 			}
 		}
-		info.append("---------------------------------------------------------\n");
+		successInfo.append("---------------------------------------------------------\n");
 		infoDialog.disposeDialog();
-		MessageBox.post("传送结果：\n" + info.toString(), "信息", MessageBox.INFORMATION);
+		KMessageBox.post("传送结果：成功"+successCounter+"个，失败"+(targetCnt-successCounter)+"个\n" + failInfo.toString()+successInfo.toString(), "信息");
 	}
 
 	/**
