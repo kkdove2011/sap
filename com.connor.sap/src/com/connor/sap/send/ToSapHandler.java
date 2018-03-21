@@ -6,6 +6,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
+import com.connor.sap.ui.KInfoDialog;
 import com.teamcenter.rac.aif.AbstractAIFUIApplication;
 import com.teamcenter.rac.aifrcp.AIFUtility;
 

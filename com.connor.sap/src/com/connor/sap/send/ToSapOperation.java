@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.connor.sap.ui.KInfoDialog;
+import com.connor.sap.ui.KMessageBox;
 import com.connor.sap.util.SapDataField;
 import com.connor.sap.util.SapDataTable;
 import com.connor.sap.util.SapFunction;

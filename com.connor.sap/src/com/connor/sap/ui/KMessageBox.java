@@ -1,4 +1,4 @@
-package com.connor.sap.send;
+package com.connor.sap.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
