@@ -49,11 +49,13 @@ public class KMessageBox extends AbstractAIFDialog {
 		mainPanel.add(scrollPane, s);
 		s.weighty = 0;
 		s.gridwidth = 1;
+		s.gridx = 0;
 		s.gridy = 1;
 		mainPanel.add(new JLabel(""), s);
 		s.weightx = 0;
+		s.gridwidth = 1;
 		s.gridx = 1;
-		s.insets = new Insets(10, 0, 16, 11);
+		s.insets = new Insets(10, 0, 11, 16);
 		button.setMinimumSize(new Dimension(86, 27));
 		mainPanel.add(button, s);
 		KMessageBox.kBox.setContentPane(mainPanel);
