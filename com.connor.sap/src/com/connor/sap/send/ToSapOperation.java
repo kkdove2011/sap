@@ -30,7 +30,6 @@ public class ToSapOperation extends AbstractAIFOperation {
 	private AbstractAIFUIApplication app;
 	private String commandId;
 	private InterfaceAIFComponent[] targets;
-	private SapFunction sapFunction;
 	private KInfoDialog infoDialog;
 
 	public ToSapOperation(AbstractAIFUIApplication app, String commandId, KInfoDialog infoDialog) {
@@ -46,7 +45,7 @@ public class ToSapOperation extends AbstractAIFOperation {
 		if (targetCnt == 0) {
 			throw new Exception("没有选择任何对象");
 		}
-		sapFunction = SapFunction.getInstance();
+		SapFunction sapFunction = SapFunction.getInstance();
 		// SapFunction.reloadXml();// 测试用，更新xml
 		// 加载函数
 		sapFunction.loadFunction(commandId);
@@ -61,7 +60,7 @@ public class ToSapOperation extends AbstractAIFOperation {
 			try {
 				// 获取tc数据
 				infoDialog.setText("传送数据... "+(counter++)+" of "+targetCnt);
-				List<Map<String, String>> propMaps = initTCData(sapFunction.getImportTable(), (TCComponent) target);
+				List<Map<String, String>> propMaps = initTCData(sapFunction.getImportTable(), (TCComponent) target, sapFunction.isBop());
 				// 发送到sap
 				Map<String, JCoTable> rtnTableMap = sapFunction.sendToSap(propMaps);
 				// 判断是否成功
@@ -122,10 +121,12 @@ public class ToSapOperation extends AbstractAIFOperation {
 	 *            SAP表封装类
 	 * @param target
 	 *            目标对象
+	 * @param isBop
+	 *            true：零件规划器；false：结构管理器
 	 * @return
 	 * @throws Exception
 	 */
-	private List<Map<String, String>> initTCData(SapDataTable dataTable, TCComponent target) throws Exception {
+	private List<Map<String, String>> initTCData(SapDataTable dataTable, TCComponent target, boolean isBop) throws Exception {
 		TCComponentBOMWindow bomWindow = null;
 		TCComponentItemRevision sourceRev;
 		TCComponentBOMLine sourceBomLine;
@@ -136,7 +137,7 @@ public class ToSapOperation extends AbstractAIFOperation {
 		} else if (target instanceof TCComponentItemRevision) {
 			sourceRev = (TCComponentItemRevision) target;
 			TCSession session = (TCSession) app.getSession();
-			if (sapFunction.isBop()) {
+			if (isBop) {
 				TCComponentBOPWindowType bopWindowType = (TCComponentBOPWindowType) session.getTypeComponent("BOPWindow");
 				bomWindow = bopWindowType.create(null);
 			} else {
