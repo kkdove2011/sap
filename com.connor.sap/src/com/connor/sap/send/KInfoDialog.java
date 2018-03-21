@@ -18,7 +18,7 @@ public class KInfoDialog extends AbstractAIFDialog {
 		infoField.setText(content);
 		infoField.setForeground(Color.WHITE);
 		infoField.setBackground(new Color(43, 43, 43));
-		// infoField.setBackground(new Color(250, 250, 250));11122334
+		// infoField.setBackground(new Color(250, 250, 250));
 		// infoField.setBackground(new Color(230,243,250));
 		infoField.setBorder(BorderFactory.createEmptyBorder());
 		if (dimension != null)
